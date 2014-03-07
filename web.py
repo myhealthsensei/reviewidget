@@ -62,7 +62,7 @@ def main():
         import tests, unittest
         import sys
         sys.argv = ['web.py',] #unittest goes digging in argv
-        unittest.main( 'tests')
+        unittest.main('tests')
         return
 
 
