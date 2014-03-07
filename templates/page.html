@@ -4,6 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
     <title>Reviewidget</title>
 
+    <script src="{{ static_url("underscore-min.js") }} charset="utf-8"></script>
+    <script src="{{ static_url("jquery.min.js") }} charset="utf-8"></script>
     <script src="{{ static_url("reviewidget.js") }} charset="utf-8"></script>
 
     <script type="text/javascript">
@@ -18,6 +20,27 @@
 
 {{ page }}
 
+<div id="reviewidget"> 
+
+<label for="author">Author</label>
+<input id="author" name="author" type="text" value="" size="30" /></br>
+<label for="email">Email</label>
+<input id="email" name="email" type="text" value="" size="30" /></br>
+<div class="rating-container">
+        <input name="et_star" type="radio" class="star {half:true}" value="1" />
+        <input name="et_star" type="radio" class="star {half:true}" value="2" />
+        <input name="et_star" type="radio" class="star {half:true}" value="3" />
+        <input name="et_star" type="radio" class="star {half:true}" value="4" />
+        <input name="et_star" type="radio" class="star {half:true}" value="5" />       
+</div>
+
+
+<label for="comment">Tell us about your experience with this resource...</label></br>
+<textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea>
+
+<button id="reviewsubmit">SUBMIT</button>
+
+</div>
   </body>
 
 </html>

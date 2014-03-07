@@ -34,8 +34,10 @@ class App(tornado.web.Application):
 
         """ Map handler classes to URLs with regex """
         from handlers.content import Page
+        from handlers.reviews import Reviews
         handlers = [
             (r"/", MainHandler),
+            (r"/reviews", Reviews),
             (r"/page/(.*)", Page),
         ]
 
