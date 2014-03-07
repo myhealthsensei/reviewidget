@@ -1,4 +1,5 @@
 
+import json
 from logging import info
 
 import tornado.ioloop
@@ -6,14 +7,18 @@ import tornado.web
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-        self.write("Hello, world")
+        links = self.application.content.keys()
+
+        outs = {'links':links}
+
+        self.render('main.html', **outs)
 
 class App(tornado.web.Application):
 
     """ 
         The Application is usually a singleton per process,
         which makes it a good place to stash globals like 
-        database connections
+        database connections or dummy content you don't want to hit the disk for
     """
 
     def __init__(self):
@@ -28,9 +33,14 @@ class App(tornado.web.Application):
         )
 
         """ Map handler classes to URLs with regex """
+        from handlers.content import Page
         handlers = [
             (r"/", MainHandler),
+            (r"/page/(.*)", Page),
         ]
+
+        # stash dummy content here
+        self.content = json.loads(open('static/alice.json').read())
 
         # let tornado __init__ whatever it needs
         tornado.web.Application.__init__(self, handlers, **settings)
