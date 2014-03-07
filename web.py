@@ -8,11 +8,6 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("Hello, world")
 
-application = tornado.web.Application([
-    (r"/", MainHandler),
-])
-
-
 class App(tornado.web.Application):
 
     """ 
@@ -37,6 +32,7 @@ class App(tornado.web.Application):
             (r"/", MainHandler),
         ]
 
+        # let tornado __init__ whatever it needs
         tornado.web.Application.__init__(self, handlers, **settings)
 
 
