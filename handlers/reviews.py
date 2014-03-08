@@ -5,7 +5,7 @@ HTTPError = tornado.web.HTTPError
 
 class Reviews(tornado.web.RequestHandler):
     def get(self):
-
+        """ look up approved reviews by whatever page is calling for them """
 
         page = self.request.headers['referer']
 
@@ -15,4 +15,13 @@ class Reviews(tornado.web.RequestHandler):
         # look up any reviews for this page and dump them back as JSON
 
         self.finish( json.dumps([]))
+
+    def post(self):
+        """ incoming reviews """
+
+        review = self.get_argument('review')
+
+        # stash this in a database somewhere
+
+        self.finish()
 

@@ -8,6 +8,12 @@ $(document).ready( function() {
 
 function submit () {
     console.log('CLICK')
+
+    // pick the values out of the form
+    var review = $('#reviewidget textarea').val()
+
+    $.post('/reviews', {'review':review})
+
     }
 
 function render(data) {
