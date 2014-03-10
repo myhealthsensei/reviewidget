@@ -11,8 +11,10 @@ function submit () {
 
     // pick the values out of the form
     var review = $('#reviewidget textarea').val()
+    var author = $('#author').val()
+    var email = $('#email').val()
 
-    $.post('/reviews', {'review':review})
+    $.post('/reviews', {'review':review, 'author':author, 'email':email})
 
     }
 

@@ -44,8 +44,18 @@ class App(tornado.web.Application):
         # stash dummy content here
         self.content = json.loads(open('static/alice.json').read())
 
+        self.init_db()
+
         # let tornado __init__ whatever it needs
         tornado.web.Application.__init__(self, handlers, **settings)
+
+    def init_db(self):
+        """ Connect to database, create tables if they don't exist """
+        
+        import sqlite3
+        self.db = sqlite3.connect('data.db')
+
+        return
 
 
 def main():
