@@ -1,6 +1,6 @@
 
 import json
-from logging import info
+import logging
 
 import tornado.ioloop
 import tornado.web
@@ -52,12 +52,34 @@ class App(tornado.web.Application):
         tornado.web.Application.__init__(self, handlers, **settings)
 
     def init_db(self):
-        """ Connect to database, create tables if they don't exist """
+        """ 
+        Connect to database, create tables if they don't exist .. 
+        stash this code somewhere else at some point as a mixin
+        """
+
+        logging.info("Initializing database..")
         
         import sqlite3
         self.db = sqlite3.connect('data.db')
+        cursor = self.db.cursor()
 
-        return
+        queries = {
+            'resources': "CREATE TABLE resources (siteurl, name, email, phone, description)",
+            'reviews': "CREATE TABLE reviews (resource, author, role, rating, review)",  # join on resource and author
+            'authors': "CREATE TABLE authors (name, role, email)",
+            'tags': "CREATE TABLE tags (slug, human)",
+            'tags_reviews': "CREATE TABLE tags_reviews (tag_id, review_id)", #m2m, use ROWID for _id
+            # sessions when that comes
+        }
+
+
+        for table in queries:
+            cursor.execute( "SELECT name FROM sqlite_master WHERE type='table' AND name = ?", (table,))
+            if not cursor.fetchall():
+                logging.info( "creating table {}".format(table)) 
+                cursor.execute( queries[table])
+
+        self.db.commit()
 
 
 def main():
@@ -88,7 +110,7 @@ def main():
 
     application = App()
     application.listen(options.port)
-    info( 'Serving on port %d' % options.port )
+    logging.info( 'Serving on port %d' % options.port )
     tornado.ioloop.IOLoop.instance().start()
 
 
