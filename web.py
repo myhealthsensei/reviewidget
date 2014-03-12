@@ -6,12 +6,14 @@ import tornado.ioloop
 import tornado.web
 
 class MainHandler(tornado.web.RequestHandler):
+    """ The homepage, TODO put this in /handlers/ somewhere appropriate """
     def get(self):
         links = self.application.content.keys()
 
         outs = {'links':links}
 
         self.render('main.html', **outs)
+
 
 class App(tornado.web.Application):
 
