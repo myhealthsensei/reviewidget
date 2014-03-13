@@ -47,6 +47,7 @@ class App(tornado.web.Application):
         self.content = json.loads(open('static/alice.json').read())
 
         self.init_db()
+        self.seed()
 
         # let tornado __init__ whatever it needs
         tornado.web.Application.__init__(self, handlers, **settings)
@@ -64,7 +65,7 @@ class App(tornado.web.Application):
         cursor = self.db.cursor()
 
         queries = {
-            'resources': "CREATE TABLE resources (siteurl, name, email, phone, description, logo)",
+            'resources': "CREATE TABLE resources (slug, name, email, phone, description, logo)",
             'reviews': "CREATE TABLE reviews (resource, author, role, rating, review)",  # join on resource and author
             'authors': "CREATE TABLE authors (name, role, email)",
             'tags': "CREATE TABLE tags (slug, human)",
@@ -80,6 +81,32 @@ class App(tornado.web.Application):
                 cursor.execute( queries[table])
 
         self.db.commit()
+
+    def seed(self):
+        """ Pump in some placeholder data for dev work / testing """
+
+        from random import choice
+
+        cursor = self.db.cursor()
+
+        # we have hash/content
+        for key in self.content:
+            slug = key
+            description = self.content[key]
+
+            words = self.content[key].split()[1:-2]
+
+            name = choice(words).capitalize() + ' ' + choice(words).capitalize()
+            email = 'nobody@nowhere.com'  # should choose some blanks, whatevs
+            phone = '312-555-1212'
+
+            logo = 'http://lorempixel.com/200/200/animals/' 
+
+            cursor.execute( "INSERT INTO resources (slug, name, email, phone, description, logo) VALUES (?,?,?,?,?,?)", 
+                            (slug, name, email, phone, description, logo))
+
+        self.db.commit()
+
 
 
 def main():
