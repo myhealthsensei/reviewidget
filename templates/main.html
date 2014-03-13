@@ -6,6 +6,12 @@
 
 {% block content %}
 <div id="content">
+
+    <div class="clearfix">
+        <img src="/static/logo.png"></img>
+    </div >
+
+
     {% for link in links %}
         <div class="one-third column"> 
             <a href="/page/{{ link }}">{{ link }}</a> 

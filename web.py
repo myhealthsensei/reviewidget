@@ -64,7 +64,7 @@ class App(tornado.web.Application):
         cursor = self.db.cursor()
 
         queries = {
-            'resources': "CREATE TABLE resources (siteurl, name, email, phone, description)",
+            'resources': "CREATE TABLE resources (siteurl, name, email, phone, description, logo)",
             'reviews': "CREATE TABLE reviews (resource, author, role, rating, review)",  # join on resource and author
             'authors': "CREATE TABLE authors (name, role, email)",
             'tags': "CREATE TABLE tags (slug, human)",

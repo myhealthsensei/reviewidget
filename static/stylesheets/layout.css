@@ -19,10 +19,20 @@
 
 body { text-align: center;}
 
-#header { padding:42px; }
+#header { 
+    padding:21px; 
+    border: 1px solid aliceblue;
+    }
 
+#search { float:left; }
 .searchbox { display: inline !important;}
 
+#browser { 
+    float:left; 
+    margin-left: 21px; /* ghetto */
+    }
+
+#auth { float:right; }
 
 /* #Page Styles
 ================================================== */
