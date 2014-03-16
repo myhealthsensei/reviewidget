@@ -17,22 +17,29 @@
 /* #Site Styles
 ================================================== */
 
-body { text-align: center;}
+body { text-align: center;
+        background: lavender;
+        }
 
 #header { 
-    padding:21px; 
-    border: 1px solid aliceblue;
+    background: aliceblue;
+    padding-top: 21px;
     }
 
-#search { float:left; }
+#content {
+    padding: 21px 0;
+    background: white;
+    border-top: 13px solid lavender;
+    border-bottom: 13px solid lavender;
+    }
+
+#footer {
+    padding: 21px 0;
+    background: aliceblue;
+    }
+
 .searchbox { display: inline !important;}
 
-#browser { 
-    float:left; 
-    margin-left: 21px; /* ghetto */
-    }
-
-#auth { float:right; }
 
 /* #Page Styles
 ================================================== */
