@@ -1,1 +1,2 @@
 tornado
+psycopg2
