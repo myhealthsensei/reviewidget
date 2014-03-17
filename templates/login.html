@@ -1,0 +1,32 @@
+{% extends index.html %}
+
+{% block content %}
+
+<div id="content" class="">
+
+    <form method="post" action="/login/" id="loginform" class="eight columns alpha">
+
+{% if error %}
+<p id="errormsg">
+    {{ error }}
+</p>
+{% end %}
+
+        <label for="login">Login</label>
+        <input name="login" type="text"></input>
+        <label>Password</label>
+        <input name="password" type="password"></input>
+    
+        <input type="submit" value="LOGIN" />
+    </form>
+
+    <div class="eight columns omega">
+        <img src="/static/logo.png"></img>
+    </div>
+
+
+<div class="clearfix"></div>
+
+</div>
+
+{% end %}

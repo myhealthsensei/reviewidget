@@ -44,13 +44,8 @@ body { text-align: center;
 /* #Page Styles
 ================================================== */
 
-/* this probably belongs in style.css, but used only for debugging */
-/*
-div {
-    border: 1px solid aliceblue;
-    }
-*/
-
+#loginform input { margin:auto;}
+#errormsg {color: red;}
 
 /* #Media Queries
 ================================================== */

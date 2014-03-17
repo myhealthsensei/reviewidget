@@ -42,10 +42,12 @@ class App(tornado.web.Application):
         """ Map handler classes to URLs with regex """
         from handlers.content import Page
         from handlers.reviews import Reviews
+        from handlers.auth import Login
         handlers = [
             (r"/", MainHandler),
-            (r"/reviews", Reviews),
+            (r"/reviews", Reviews),  # meant to be for an async widget, crufty now
             (r"/page/(.*)", Page),
+            (r"/login/?", Login),
         ]
 
 
@@ -114,6 +116,8 @@ class App(tornado.web.Application):
             'authors': """CREATE TABLE IF NOT EXISTS authors (
                 id BIGSERIAL PRIMARY KEY,
                 name VARCHAR(100), 
+                passhash VARCHAR(100), 
+                admin BOOL, 
                 email VARCHAR(100)
                 )""",
 
