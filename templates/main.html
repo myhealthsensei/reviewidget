@@ -19,7 +19,7 @@
     <ul> 
     {% for link in links %}
         <li class="one-third column"> 
-            <a href="/page/{{ link }}">{{ link }}</a> 
+            <a href="/page/{{ link['slug'] }}">{{ link['name'] }}</a> 
         </li>
     {% end %}
 

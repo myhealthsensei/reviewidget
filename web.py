@@ -8,8 +8,14 @@ import tornado.web
 class MainHandler(tornado.web.RequestHandler):
     """ The homepage, TODO put this in /handlers/ somewhere appropriate """
     def get(self):
-        links = self.application.content.keys()
 
+        cursor = self.application.db.cursor()
+        cursor.execute( "SELECT * FROM resources")  # eh.. random? somehow?
+
+        links = [dict(row) for row in cursor.fetchall()][:13]
+
+
+        # links = self.application.content.keys()
         outs = {'links':links}
 
         self.render('main.html', **outs)
@@ -62,6 +68,7 @@ class App(tornado.web.Application):
         
         import sqlite3
         self.db = sqlite3.connect('data.db')
+        self.db.row_factory = sqlite3.Row
         cursor = self.db.cursor()
 
         queries = {
@@ -81,6 +88,7 @@ class App(tornado.web.Application):
                 cursor.execute( queries[table])
 
         self.db.commit()
+
 
     def seed(self):
         """ Pump in some placeholder data for dev work / testing """
