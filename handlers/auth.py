@@ -10,12 +10,22 @@ class Login(tornado.web.RequestHandler):
 
     def post(self):
         """ Check incoming args, set appropriate cookies """
-        login = self.get_argument('login')
+        login = self.get_argument('login').strip().lower()
+
         password = self.get_argument('password')  # major TODO is SSL
         passhash = sha256(password + self.application.settings['cookie_secret']).hexdigest()
 
-        user = self.application.cursor.execute( "SELECT * FROM authors WHERE name=%s", (login,))
+        user = self.application.cursor.execute( "SELECT * FROM authors WHERE login=%s", (login,))
+        user = self.application.cursor.fetchone()
 
         if not user:
             return self.get( error="Invalid Login")
+
+        elif passhash != user['passhash']:
+            return self.get(error="Invalid Password")
+
+        else:
+            self.set_secure_cookie('user', user['login'])
+
+        self.redirect('/')
 

@@ -176,21 +176,21 @@ class App(tornado.web.Application):
         """ util method to add users from commandline, good for bootstrapping the first user """
     
         logging.info('Adding user {}'.format(login))
-    
-        import getpass
-        from hashlib import sha256
-
-        password = getpass.getpass()
-        passhash = sha256(password+self.settings['cookie_secret']).hexdigest()
 
         self.cursor.execute( "SELECT * FROM authors WHERE login=%s", (login,)) 
         if self.cursor.fetchone():
             return logging.error( "User {} already exists - aborting!".format(login))
+    
+        import getpass
+        from hashlib import sha256
 
+        # prompt for password at commandline
+        password = getpass.getpass()
+        passhash = sha256(password+self.settings['cookie_secret']).hexdigest()
+
+        # dump it into database
         self.cursor.execute( "INSERT INTO authors (login,passhash,admin) VALUES (%s,%s,%s)", (login,passhash,True))
         self.db.commit()
-        import pdb;pdb.set_trace()
-
 
 
 def main():
