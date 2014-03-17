@@ -42,12 +42,13 @@ class App(tornado.web.Application):
         """ Map handler classes to URLs with regex """
         from handlers.content import Page
         from handlers.reviews import Reviews
-        from handlers.auth import Login
+        from handlers.auth import Login,Logout
         handlers = [
             (r"/", MainHandler),
             (r"/reviews", Reviews),  # meant to be for an async widget, crufty now
             (r"/page/(.*)", Page),
             (r"/login/?", Login),
+            (r"/logout/?", Logout),
         ]
 
 

@@ -29,3 +29,8 @@ class Login(tornado.web.RequestHandler):
 
         self.redirect('/')
 
+class Logout(tornado.web.RequestHandler):
+    def get(self):
+        self.clear_cookie('user')
+
+        self.redirect('/')
