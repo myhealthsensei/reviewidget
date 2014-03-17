@@ -4,11 +4,12 @@ HTTPError = tornado.web.HTTPError
 class Page(tornado.web.RequestHandler):
     def get(self, page):
 
-        if page not in self.application.content:
-            raise HTTPError(404)
+        self.application.cursor.execute( "SELECT * FROM resources WHERE slug=%s", (page,))
 
-        else:
-            page = self.application.content[page]
+        page = dict(self.application.cursor.fetchone())
+
+        if not page:
+            raise HTTPError(404)
 
         out = {'page':page}
         self.render('page.html', **out)

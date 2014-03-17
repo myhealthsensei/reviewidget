@@ -37,3 +37,5 @@ class Reviews(tornado.web.RequestHandler):
         page = page.split('page/')[1]  # huge TODO
 
         return page
+
+
