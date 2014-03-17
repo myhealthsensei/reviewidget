@@ -9,7 +9,7 @@ class MainHandler(tornado.web.RequestHandler):
     """ The homepage, TODO put this in /handlers/ somewhere appropriate """
     def get(self):
 
-        cursor = self.application.db.cursor()
+        cursor = self.application.cursor
         cursor.execute( "SELECT * FROM resources")  # eh.. random? somehow?
 
         links = [dict(row) for row in cursor.fetchall()][:13]
@@ -66,10 +66,12 @@ class App(tornado.web.Application):
         logging.info("Initializing database..")
 
         import psycopg2
+        import psycopg2.extras
 
         self.db = psycopg2.connect( "user='sensei' password='password' dbname='mhs'")
+        self.cursor = self.db.cursor(cursor_factory = psycopg2.extras.DictCursor)
+        cursor = self.cursor
 
-        cursor = self.db.cursor()
 
         queries = {
             'resources': """CREATE TABLE IF NOT EXISTS resources (
