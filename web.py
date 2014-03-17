@@ -36,6 +36,7 @@ class App(DB, tornado.web.Application):
             static_path= "static",  # and static files in /static/
             xsrf_cookies= False,
             autoescape = None,
+            login_url = '/login/', 
             debug = True,  # autoreloads on changes, among other things
         )
 
@@ -43,12 +44,14 @@ class App(DB, tornado.web.Application):
         from handlers.content import Page
         from handlers.reviews import Reviews
         from handlers.auth import Login,Logout
+        from handlers.admin import Admin
         handlers = [
             (r"/", MainHandler),
-            (r"/reviews", Reviews),  # meant to be for an async widget, crufty now
+            # (r"/reviews", Reviews),  # meant to be for an async widget, crufty now
             (r"/page/(.*)", Page),
             (r"/login/?", Login),
             (r"/logout/?", Logout),
+            (r"/admin/?", Admin),
         ]
 
         self.init_db()

@@ -16,7 +16,7 @@ class BaseHandler(tornado.web.RequestHandler):
         if not self._cursor:
             self._cursor = self.db.cursor()
 
-        return _cursor
+        return self._cursor
 
 
     _user = None

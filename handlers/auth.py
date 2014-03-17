@@ -4,9 +4,11 @@ import logging
 import tornado.web
 HTTPError = tornado.web.HTTPError
 
-class Login(tornado.web.RequestHandler):
+from handlers import BaseHandler
+
+class Login(BaseHandler):
     def get(self, error=None):
-        self.render('login.html', error=error)
+        self.render('login.html', error=error, next=self.get_argument('next', '/'))
 
     def post(self):
         """ Check incoming args, set appropriate cookies """
@@ -27,7 +29,7 @@ class Login(tornado.web.RequestHandler):
         else:
             self.set_secure_cookie('user', user['login'])
 
-        self.redirect('/')
+        self.redirect(self.get_argument('next'))
 
 class Logout(tornado.web.RequestHandler):
     def get(self):
