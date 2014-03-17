@@ -2,14 +2,28 @@
 
 {% block content %}
 
-<div id="content">
+<div id="content" class="">
+
+<div id="meta" class="six columns alpha">
 <h1>{{ page['name'] }} </h1>
 
+<img src="{{ page['logo'] }}"> </img>
+<ul>
+<li>{{ page['email'] }}</li>
+<li>{{ page['phone'] }}</li>
+</ul>
+</div>
+
+<div id="description" class="ten columns omega">
 <p>
 {{ page['description'] }}
 </p>
+</div>
 
-<div id="reviewidget"> 
+
+<hr>
+
+<div id="reviewidget" class="four columns alpha"> 
 
 <label for="author">Author</label>
 <input id="author" name="author" type="text" value="" size="30" /></br>
@@ -30,6 +44,10 @@
 
 </div>
 
+<div id="reviews" class="twelve columns omega">
+</div>
+
+<hr>
 </div>
 
 {% end %}
