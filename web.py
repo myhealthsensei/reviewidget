@@ -28,7 +28,7 @@ class App(tornado.web.Application):
         database connections or dummy content you don't want to hit the disk for
     """
 
-    def __init__(self):
+    def __init__(self, seed=False):
         """ Settings """
         settings = dict(
             cookie_secret="change this in production",  # key for encrypted cookies
@@ -50,7 +50,9 @@ class App(tornado.web.Application):
 
 
         self.init_db()
-        self.seed()
+
+        if seed:
+            self.seed()
 
         # let tornado __init__ whatever it needs
         tornado.web.Application.__init__(self, handlers, **settings)
@@ -68,9 +70,6 @@ class App(tornado.web.Application):
         self.db = psycopg2.connect( "user='sensei' password='password' dbname='mhs'")
 
         cursor = self.db.cursor()
-        import pdb;pdb.set_trace()
-        
-        
 
         queries = {
             'resources': """CREATE TABLE IF NOT EXISTS resources (
@@ -114,7 +113,7 @@ class App(tornado.web.Application):
 
 
         for table in queries:
-            logging.info( 'CREATING {}'.format(table))
+            logging.debug( 'CREATING {}'.format(table))
             cursor.execute( queries[table])
 
         self.db.commit()
@@ -143,7 +142,7 @@ class App(tornado.web.Application):
 
             logo = 'http://lorempixel.com/200/200/animals/' 
 
-            cursor.execute( "INSERT INTO resources (slug, name, email, phone, description, logo) VALUES (?,?,?,?,?,?)", 
+            cursor.execute( "INSERT INTO resources (slug, name, email, phone, description, logo) VALUES (%s,%s,%s,%s,%s,%s)", 
                             (slug, name, email, phone, description, logo))
 
         self.db.commit()
@@ -157,6 +156,7 @@ def main():
     """
     define("port", default=8001, help="run on the given port", type=int)
     define("runtests", default=False, help="run tests", type=bool)
+    define("seed", default=False, help="Build tables and set up dummy/fixture data")
 
     """
     parse however the process was started
@@ -176,7 +176,7 @@ def main():
         return
 
 
-    application = App()
+    application = App(seed=options.seed)
     application.listen(options.port)
     logging.info( 'Serving on port %d' % options.port )
     tornado.ioloop.IOLoop.instance().start()
