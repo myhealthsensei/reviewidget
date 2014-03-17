@@ -14,7 +14,6 @@ class MainHandler(tornado.web.RequestHandler):
 
         links = [dict(row) for row in cursor.fetchall()][:13]
 
-
         # links = self.application.content.keys()
         outs = {'links':links}
 
@@ -49,8 +48,6 @@ class App(tornado.web.Application):
             (r"/page/(.*)", Page),
         ]
 
-        # stash dummy content here
-        self.content = json.loads(open('static/alice.json').read())
 
         self.init_db()
         self.seed()
@@ -65,27 +62,60 @@ class App(tornado.web.Application):
         """
 
         logging.info("Initializing database..")
-        
-        import sqlite3
-        self.db = sqlite3.connect('data.db')
-        self.db.row_factory = sqlite3.Row
+
+        import psycopg2
+
+        self.db = psycopg2.connect( "user='sensei' password='password' dbname='mhs'")
+
         cursor = self.db.cursor()
+        import pdb;pdb.set_trace()
+        
+        
 
         queries = {
-            'resources': "CREATE TABLE resources (slug, name, email, phone, description, logo)",
-            'reviews': "CREATE TABLE reviews (resource, author, role, rating, review)",  # join on resource and author
-            'authors': "CREATE TABLE authors (name, role, email)",
-            'tags': "CREATE TABLE tags (slug, human)",
-            'tags_reviews': "CREATE TABLE tags_reviews (tag_id, review_id)", #m2m, use ROWID for _id
+            'resources': """CREATE TABLE IF NOT EXISTS resources (
+                id BIGSERIAL PRIMARY KEY,
+                slug VARCHAR(50), 
+                name VARCHAR(100), 
+                email VARCHAR(100), 
+                phone VARCHAR(100), 
+                description TEXT, 
+                logo VARCHAR(100)
+                )""",
+
+            'reviews': """CREATE TABLE IF NOT EXISTS reviews (
+                id BIGSERIAL PRIMARY KEY,
+                resource_id INT, 
+                author_id INT, 
+                role VARCHAR(100), 
+                rating INT, 
+                review TEXT
+                )""",
+
+            'authors': """CREATE TABLE IF NOT EXISTS authors (
+                id BIGSERIAL PRIMARY KEY,
+                name VARCHAR(100), 
+                email VARCHAR(100)
+                )""",
+
+            'tags': """CREATE TABLE IF NOT EXISTS tags (
+                id BIGSERIAL PRIMARY KEY,
+                slug VARCHAR(100), 
+                human VARCHAR(100)
+                )""",
+
+            # m2m table linking tags and reviews
+            'tags_reviews': """CREATE TABLE IF NOT EXISTS tags_reviews (
+                tag_id INT, 
+                review_id INT
+                )""",
             # sessions when that comes
         }
 
 
         for table in queries:
-            cursor.execute( "SELECT name FROM sqlite_master WHERE type='table' AND name = ?", (table,))
-            if not cursor.fetchall():
-                logging.info( "creating table {}".format(table)) 
-                cursor.execute( queries[table])
+            logging.info( 'CREATING {}'.format(table))
+            cursor.execute( queries[table])
 
         self.db.commit()
 
@@ -96,6 +126,9 @@ class App(tornado.web.Application):
         from random import choice
 
         cursor = self.db.cursor()
+
+        # stash dummy content here
+        self.content = json.loads(open('static/alice.json').read())
 
         # we have hash/content
         for key in self.content:
