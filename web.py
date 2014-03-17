@@ -65,13 +65,31 @@ class App(tornado.web.Application):
 
         logging.info("Initializing database..")
 
+        import os
+        import urlparse
+
         import psycopg2
         import psycopg2.extras
 
-        self.db = psycopg2.connect( "user='sensei' password='password' dbname='mhs'")
+        if "DATABASE_URL" in os.environ:
+            urlparse.uses_netloc.append("postgres")
+            url = urlparse.urlparse(os.environ["DATABASE_URL"])
+
+            self.db = psycopg2.connect(
+                database=url.path[1:],
+                user=url.username,
+                password=url.password,
+                host=url.hostname,
+                port=url.port
+            )
+
+        else:
+            logging.error("No $DATABASE_URL found in environ, ABORTING STARTUP")
+            os.exit(1)
+
+        # build connections to db
         self.cursor = self.db.cursor(cursor_factory = psycopg2.extras.DictCursor)
         cursor = self.cursor
-
 
         queries = {
             'resources': """CREATE TABLE IF NOT EXISTS resources (
