@@ -116,6 +116,7 @@ class App(tornado.web.Application):
             'authors': """CREATE TABLE IF NOT EXISTS authors (
                 id BIGSERIAL PRIMARY KEY,
                 name VARCHAR(100), 
+                login VARCHAR(100), 
                 passhash VARCHAR(100), 
                 admin BOOL, 
                 email VARCHAR(100)
@@ -171,6 +172,25 @@ class App(tornado.web.Application):
 
         self.db.commit()
 
+    def adduser(self, login):
+        """ util method to add users from commandline, good for bootstrapping the first user """
+    
+        logging.info('Adding user {}'.format(login))
+    
+        import getpass
+        from hashlib import sha256
+
+        password = getpass.getpass()
+        passhash = sha256(password+self.settings['cookie_secret']).hexdigest()
+
+        self.cursor.execute( "SELECT * FROM authors WHERE login=%s", (login,)) 
+        if self.cursor.fetchone():
+            return logging.error( "User {} already exists - aborting!".format(login))
+
+        self.cursor.execute( "INSERT INTO authors (login,passhash,admin) VALUES (%s,%s,%s)", (login,passhash,True))
+        self.db.commit()
+        import pdb;pdb.set_trace()
+
 
 
 def main():
@@ -181,6 +201,7 @@ def main():
     define("port", default=8001, help="run on the given port", type=int)
     define("runtests", default=False, help="run tests", type=bool)
     define("seed", default=False, help="Build tables and set up dummy/fixture data")
+    define("adduser", default='', help="Add user from commandline, eg --adduser=japherwocky")
 
     """
     parse however the process was started
@@ -199,8 +220,11 @@ def main():
         unittest.main('tests')
         return
 
-
     application = App(seed=options.seed)
+
+    if options.adduser:
+        application.adduser(options.adduser)
+
     application.listen(options.port)
     logging.info( 'Serving on port %d' % options.port )
     tornado.ioloop.IOLoop.instance().start()
