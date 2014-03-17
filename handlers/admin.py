@@ -8,5 +8,8 @@ class Admin(BaseHandler):
     @tornado.web.authenticated
     def get(self):
 
-        self.render('main.html', links=[])
+        self.cursor.execute("SELECT * FROM resources")
+        links = [dict(row) for row in self.cursor.fetchall()]
+
+        self.render('admin.html', links=links)
 

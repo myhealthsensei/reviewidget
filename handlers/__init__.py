@@ -1,4 +1,5 @@
 import tornado.web
+import psycopg2.extras
 
 class BaseHandler(tornado.web.RequestHandler):
 
@@ -14,7 +15,7 @@ class BaseHandler(tornado.web.RequestHandler):
     def cursor(self):
         """Create a new cursor per request"""
         if not self._cursor:
-            self._cursor = self.db.cursor()
+            self._cursor = self.db.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
         return self._cursor
 

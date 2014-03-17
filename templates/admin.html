@@ -1,0 +1,29 @@
+{% extends index.html %}
+
+{% block header %}
+{% end %}
+
+{% block content %}
+<div id="content">
+
+<h2> Resources </h2>
+
+<ul>
+    <li class="eight columns" style="background:aliceblue;">
+        <a href="/admin/resource/new">CREATE NEW RESOURCE</a>
+    </li>
+
+    {% for link in links %}
+        <li class="four columns"> 
+            <a href="/admin/resource/{{ link['slug'] }}">{{ link['name'] }}</a> 
+        </li>
+    {% end %}
+</ul>
+
+<hr />
+
+</div>
+
+{% end %}
+
+
