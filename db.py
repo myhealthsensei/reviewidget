@@ -42,7 +42,7 @@ class DB:
         queries = {
             'resources': """CREATE TABLE IF NOT EXISTS resources (
                 id BIGSERIAL PRIMARY KEY,
-                slug VARCHAR(50), 
+                slug VARCHAR(50) UNIQUE, 
                 name VARCHAR(100), 
                 email VARCHAR(100), 
                 phone VARCHAR(100), 
@@ -65,7 +65,7 @@ class DB:
             'authors': """CREATE TABLE IF NOT EXISTS authors (
                 id BIGSERIAL PRIMARY KEY,
                 name VARCHAR(100), 
-                login VARCHAR(100), 
+                login VARCHAR(100) UNIQUE, 
                 passhash VARCHAR(100), 
                 admin BOOL, 
                 email VARCHAR(100)
