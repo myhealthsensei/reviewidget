@@ -6,12 +6,16 @@ function init() {
     }
 
 function buttonclick() {
-    var val = $(this).val();
+    var val = $('#publicinput').val();
+    var input = $('#publicinput');
 
     if ( val == 'True' ) {
-        $(this).val('False').html('Resource is PRIVATE')
+        $(this).html('Resource is PRIVATE');
+        input.val('False');
+            
         } else {
-        $(this).val('True').html('Resource is PUBLIC')
+        $(this).html('Resource is PUBLIC');
+        input.val('True');
         }
 
     $(this).toggleClass('True False')
