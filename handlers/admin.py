@@ -4,14 +4,16 @@ HTTPError = tornado.web.HTTPError
 from handlers import BaseHandler
 
 class Admin(BaseHandler):
+    """ Overview of all resources """
 
     @tornado.web.authenticated
     def get(self):
 
-        self.cursor.execute("SELECT * FROM resources")
+        self.cursor.execute("SELECT * FROM resources ORDER BY id DESC")
         links = [dict(row) for row in self.cursor.fetchall()]
 
         self.render('admin.html', links=links)
+
 
 class Edit(BaseHandler):
 
@@ -43,7 +45,8 @@ class Edit(BaseHandler):
             incoming[varchar] = self.get_argument(varchar)
 
         for bol in bools:
-            incoming[bol] = bool( self.get_argument(bol) )
+            boolmap = {'True':True, 'False':False}
+            incoming[bol] = boolmap[self.get_argument(bol)]
 
         args = tuple( [incoming[k] for k in varchars]+[incoming[k] for k in bools]+[incoming['id']])
         # an edit
