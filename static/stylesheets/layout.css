@@ -18,7 +18,7 @@
 ================================================== */
 
 body { text-align: center;
-        background: lavender;
+        background: ivory;
         }
 
 #header { 
@@ -29,8 +29,8 @@ body { text-align: center;
 #content {
     padding: 21px 0;
     background: white;
-    border-top: 13px solid lavender;
-    border-bottom: 13px solid lavender;
+    border-top: 13px solid ivory;
+    border-bottom: 13px solid ivory;
     }
 
 #footer {
