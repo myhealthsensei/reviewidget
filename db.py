@@ -2,6 +2,7 @@
 import os
 import urlparse
 import logging
+import json
 import psycopg2
 import psycopg2.extras
 
@@ -46,6 +47,7 @@ class DB:
                 email VARCHAR(100), 
                 phone VARCHAR(100), 
                 description TEXT, 
+                link VARCHAR(100),
                 logo VARCHAR(100)
                 )""",
 

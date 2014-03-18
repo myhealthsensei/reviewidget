@@ -47,6 +47,8 @@ body { text-align: center;
 #loginform input { margin:auto;}
 #errormsg {color: red;}
 
+#edit input,textarea { width:300px; }
+
 /* #Media Queries
 ================================================== */
 

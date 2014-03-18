@@ -43,15 +43,16 @@ class App(DB, tornado.web.Application):
         """ Map handler classes to URLs with regex """
         from handlers.content import Page
         from handlers.reviews import Reviews
-        from handlers.auth import Login,Logout
-        from handlers.admin import Admin
+        from handlers.auth import Login, Logout
+        from handlers.admin import Admin, Edit
         handlers = [
             (r"/", MainHandler),
             # (r"/reviews", Reviews),  # meant to be for an async widget, crufty now
-            (r"/page/(.*)", Page),
+            (r"/page/(.*)/?", Page),
             (r"/login/?", Login),
             (r"/logout/?", Logout),
             (r"/admin/?", Admin),
+            (r"/admin/resource/(.*)/?", Edit),
         ]
 
         self.init_db()
