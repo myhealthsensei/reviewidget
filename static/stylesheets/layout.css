@@ -48,6 +48,21 @@ body {
 #loginform input { margin:auto;}
 #errormsg {color: red;}
 
+/* RESOURCE LISTING */
+#resourcelist li { 
+    padding: 13px 0;
+    }
+
+#resourcelist li.True {
+    background: lightgreen;
+    }
+
+#resourcelist li.False {
+    background: lightcoral;
+    }
+
+
+/* RESOURCE EDITOR */
 #edit {background: aliceblue;}
 #edit input,textarea { 
     width:300px; 
