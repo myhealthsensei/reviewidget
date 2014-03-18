@@ -49,7 +49,10 @@ body {
 #errormsg {color: red;}
 
 #edit {background: aliceblue;}
-#edit input,textarea { width:300px; }
+#edit input,textarea { 
+    width:300px; 
+    margin:auto;
+    }
 
 #edit button.True {
     background: lightgreen;
