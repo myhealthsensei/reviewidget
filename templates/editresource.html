@@ -1,6 +1,7 @@
 {% extends index.html %}
 
 {% block header %}
+    <script src="/static/edit.js"></script>
 {% end %}
 
 {% block content %}
@@ -8,6 +9,7 @@
 
 <div id="edit" class="six columns">
     <form method="post" action="">
+
     <input type="hidden" name="id" value="{{ id }}">
 
     <label for="name">Name</label>
@@ -29,6 +31,8 @@
     <input type="text" name="slug" value="{{ slug }}"></input>
 
     <textarea name="description" rows="35" >{{description}}</textarea>
+
+    <button type="button" class="{{ public }}" value="{{ public }}" id="publicbutton">PUBLIC</button>
 
     <button type="submit">SAVE</button>
 

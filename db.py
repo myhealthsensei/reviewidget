@@ -48,7 +48,8 @@ class DB:
                 phone VARCHAR(100), 
                 description TEXT, 
                 link VARCHAR(100),
-                logo VARCHAR(100)
+                logo VARCHAR(100),
+                public BOOLEAN DEFAULT FALSE
                 )""",
 
             'reviews': """CREATE TABLE IF NOT EXISTS reviews (
@@ -57,6 +58,7 @@ class DB:
                 author_id INT, 
                 role VARCHAR(100), 
                 rating INT, 
+                public BOOLEAN DEFAULT FALSE,
                 review TEXT
                 )""",
 

@@ -17,9 +17,10 @@
 /* #Site Styles
 ================================================== */
 
-body { text-align: center;
-        background: ivory;
-        }
+body { 
+    text-align: center;
+    background: ivory;
+    }
 
 #header { 
     background: aliceblue;
@@ -47,7 +48,20 @@ body { text-align: center;
 #loginform input { margin:auto;}
 #errormsg {color: red;}
 
+#edit {background: aliceblue;}
 #edit input,textarea { width:300px; }
+
+#edit button.True {
+    background: lightgreen;
+    }
+
+#edit button.False {
+    background: lightcoral;
+    border-color: #ccc;
+    text-shadow:none;
+    }
+
+#edit button:focus { outline: none; }
 
 /* #Media Queries
 ================================================== */
