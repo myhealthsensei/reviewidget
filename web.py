@@ -117,6 +117,7 @@ def main():
 
     if options.adduser:
         application.adduser(options.adduser)
+        return
 
     application.listen(options.port)
     logging.info( 'Serving on port %d' % options.port )
