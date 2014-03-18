@@ -35,13 +35,17 @@ class Edit(BaseHandler):
 
         incoming = {}
         varchars = ['slug', 'name', 'email', 'phone', 'description', 'link', 'logo']
+        bools = ['public',]
 
         incoming['id'] = int(self.get_argument('id'))  # pass 0 on new, but always an int
 
         for varchar in varchars:
-            incoming[varchar] = self.get_argument( varchar )
+            incoming[varchar] = self.get_argument(varchar)
 
-        args = tuple( [incoming[k] for k in varchars] +[incoming['id']])
+        for bol in bools:
+            incoming[bol] = bool( self.get_argument(bol) )
+
+        args = tuple( [incoming[k] for k in varchars]+[incoming[k] for k in bools]+[incoming['id']])
         # an edit
         if incoming['id'] > 0:
             self.cursor.execute(
@@ -53,9 +57,11 @@ class Edit(BaseHandler):
                 phone = %s,
                 description = %s,
                 link = %s,
-                logo = %s
+                logo = %s,
+                public = %s
             WHERE id=%s
             """, args)
 
+        self.db.commit()
         return self.redirect( '/admin/resource/{}'.format(incoming['slug']))
 
