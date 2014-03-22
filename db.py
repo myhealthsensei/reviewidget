@@ -1,5 +1,7 @@
 
+
 import os
+import sys
 import urlparse
 import logging
 import json
@@ -32,8 +34,9 @@ class DB:
             )
 
         else:
+            # prolly something like: export DATABASE_URL=postgres://sensei:sensei@localhost:5432/mhs
             logging.error("No $DATABASE_URL found in environ, ABORTING STARTUP")
-            os.exit(1)
+            sys.exit(1)
 
         # build connections to db
         self.cursor = self.db.cursor(cursor_factory = psycopg2.extras.DictCursor)
