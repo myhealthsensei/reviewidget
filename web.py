@@ -17,7 +17,7 @@ class MainHandler(tornado.web.RequestHandler):
         # links = self.application.content.keys()
         outs = {'links':links}
 
-        self.render('main.html', **outs)
+        self.render('bootstrap.html', **outs)
 
 from db import DB
 class App(DB, tornado.web.Application):
