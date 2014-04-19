@@ -17,7 +17,7 @@ class MainHandler(tornado.web.RequestHandler):
         # links = self.application.content.keys()
         outs = {'links':links}
 
-        self.render('bootstrap.html', **outs)
+        self.render('homepage.html', **outs)
 
 from db import DB
 class App(DB, tornado.web.Application):
@@ -48,11 +48,11 @@ class App(DB, tornado.web.Application):
         handlers = [
             (r"/", MainHandler),
             # (r"/reviews", Reviews),  # meant to be for an async widget, crufty now
-            (r"/page/(.*)/?", Page),
+            # (r"/page/(.*)/?", Page),
             (r"/login/?", Login),
             (r"/logout/?", Logout),
-            (r"/admin/?", Admin),
-            (r"/admin/resource/(.*)/?", Edit),
+            # (r"/admin/?", Admin),
+            # (r"/admin/resource/(.*)/?", Edit),
         ]
 
         self.init_db()
