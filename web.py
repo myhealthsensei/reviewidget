@@ -43,7 +43,7 @@ class App(DB, tornado.web.Application):
         """ Map handler classes to URLs with regex """
         from handlers.content import Page
         from handlers.reviews import Reviews
-        from handlers.auth import Login, Logout
+        from handlers.auth import Login, Logout, Signup
         from handlers.admin import Admin, Edit
         handlers = [
             (r"/", MainHandler),
@@ -51,6 +51,7 @@ class App(DB, tornado.web.Application):
             # (r"/page/(.*)/?", Page),
             (r"/login/?", Login),
             (r"/logout/?", Logout),
+            (r"/signup/?", Signup),
             # (r"/admin/?", Admin),
             # (r"/admin/resource/(.*)/?", Edit),
         ]

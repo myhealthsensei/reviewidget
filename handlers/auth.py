@@ -36,3 +36,22 @@ class Logout(tornado.web.RequestHandler):
         self.clear_cookie('user')
 
         self.redirect('/')
+
+class Signup(BaseHandler):
+    def post(self):
+        """ validate an email address to be used as a login """
+        # post an email
+        email = self.get_argument('email')
+
+        # validate that it's legal.. i guess if it bounces it isn't!
+
+        # generate a token
+        token = sha256( email + self.application.settings['cookie_secret']).hexdigest()
+
+        # send email with URL
+
+    def get(self, token):
+        """ check an incoming token to validate an email, display a form to set the password """
+        pass 
+
+
