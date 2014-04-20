@@ -16,7 +16,6 @@ class DB:
     def init_db(self):
         """ 
         Connect to database, create tables if they don't exist .. 
-        stash this code somewhere else at some point as a mixin
         """
 
         logging.info("Initializing database..")
@@ -84,6 +83,13 @@ class DB:
             'tags_reviews': """CREATE TABLE IF NOT EXISTS tags_reviews (
                 tag_id INT, 
                 review_id INT
+                )""",
+
+            # signups to be validated
+            'signups': """ CREATE TABLE IF NOT EXISTS signups (
+                id BIGSERIAL PRIMARY KEY,
+                email VARCHAR(100),
+                hash VARCHAR(500)
                 )""",
             # sessions when that comes
         }
