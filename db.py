@@ -96,7 +96,7 @@ class DB:
 
 
         for table in queries:
-            logging.debug( 'CREATING {}'.format(table))
+            logging.debug( 'CREATING (IF NOT EXISTS) {}'.format(table))
             cursor.execute( queries[table])
 
         self.db.commit()
