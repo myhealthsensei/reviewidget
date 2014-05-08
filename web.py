@@ -41,14 +41,14 @@ class App(DB, tornado.web.Application):
         )
 
         """ Map handler classes to URLs with regex """
-        from handlers.content import Page
+        from handlers.content import Resource
         from handlers.reviews import Reviews
         from handlers.auth import Login, Logout, Signup
         from handlers.admin import Admin, Edit
         handlers = [
             (r"/", MainHandler),
-            # (r"/reviews", Reviews),  # meant to be for an async widget, crufty now
-            # (r"/page/(.*)/?", Page),
+            (r"/resources/(.*)/?", Resource),
+
             (r"/login/?", Login),
             (r"/logout/?", Logout),
             (r"/signup/?", Signup),
@@ -56,7 +56,8 @@ class App(DB, tornado.web.Application):
             # (r"/admin/resource/(.*)/?", Edit),
         ]
 
-        self.init_db()
+        self.init_db()  # build connections to the database
+        # self.init_mail()  # build connections to a mailserver
 
         # fixtures if we want them
         if seed:
@@ -119,6 +120,7 @@ def main():
     if options.adduser:
         application.adduser(options.adduser)
         return
+    
 
     application.listen(options.port)
     logging.info( 'Serving on port %d' % options.port )

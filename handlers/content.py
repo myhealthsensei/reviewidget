@@ -1,8 +1,12 @@
 import tornado.web
 HTTPError = tornado.web.HTTPError
+from handlers import BaseHandler
 
-class Page(tornado.web.RequestHandler):
-    def get(self, page):
+class Resource(BaseHandler):
+    def get(self, slug=None):
+
+        if not slug:
+            return self.get_index()
 
         self.application.cursor.execute( "SELECT * FROM resources WHERE slug=%s", (page,))
 
@@ -11,6 +15,17 @@ class Page(tornado.web.RequestHandler):
         if not page:
             raise HTTPError(404)
 
-        out = {'page':page}
+        out = {'resource':resource }
         self.render('page.html', **out)
+
+    def get_index(self):
+        """
+        Load some sort of something that lists all resources
+        """
+
+        out = {
+            'user':self.user
+            }
+
+        self.render('resource.html', **out)
 
