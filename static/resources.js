@@ -9,7 +9,12 @@ angular.module('Resources', [])
 // edit controller
 .controller('Edit', function ($scope,$http) {
 
-    $scope.hello = 'world';
+    $scope.resource = {'id':false};  // optional
+
+    $scope.save = function(resource) {
+        console.log(resource);
+
+        }
 
     })
 

@@ -12,7 +12,74 @@
 
 {% if user['admin'] %}
 <div ng-controller="Edit">
-    <p> [[ hello ]] </p>
+
+    <form action="" id="resourceform" class="form-horizontal" name="resourceform" ng-submit="save(resource)" role="form">
+
+    <input type="hidden" ng-model="resource.id">
+
+    <div class="form-group">
+        <label class="control-label col-sm-1">Name</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" placeholder="An Awesome Cancer Resource" 
+                ng-model="resource.name" ng-required="true" ng-maxlength="100"
+            >
+        </div>
+
+        <label class="control-label col-sm-3">Slug</label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" placeholder="an-awesome-cancer-resource" 
+                ng-model="resource.slug" ng-required="true" ng-maxlength="5"
+            >
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="email" class="control-label col-sm-1">Email</label>
+        <div class="col-sm-3">
+            <input type="text" id="email" class="form-control" type="email" placeholder="someone@nowhere.com" ng-model="resource.email">
+        </div>
+
+        <label for="phone" class="control-label col-sm-1">Phone</label>
+        <div class="col-sm-3">
+            <input type="text" id="phone" class="form-control" type="tel" placeholder="734-555-1212" ng-model="resource.phone">
+        </div>
+
+        <label for="link" class="control-label col-sm-1">Link</label>
+        <div class="col-sm-3">
+            <input type="text" id="link" class="form-control" placeholder="somecoolplace.com" ng-model="resource.link">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="logo" class="control-label col-sm-2">Logo</label>
+        <div class="col-sm-10">
+            <input type="text" id="logo" class="form-control" placeholder="logo" ng-model="resource.logo">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3">Description</label>
+        <div class="col-sm-9">
+            <textarea class="form-control" id="content" rows="20" ng-model="resource.description" ng-required="true"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="public" class="control-label col-sm-3">This post is:</label>
+        <div class="col-sm-9">
+            <button type="button" id="public" class="btn" 
+                ng-model="resource.public" ng-click="resource.public = resource.public ? false : true "
+                ng-class="{'btn-warning': resource.public, 'btn-info': !resource.public}"
+            >
+                [[ resource.public ? 'Public' : 'Private' ]]
+            </button>
+        </div>
+    </div>
+
+    <div class="row clearfix">
+    <button type="submit" id="save" class="btn pull-right" ng-disabled="resourceform.$invalid" >Save</button>
+
+    </form>
 </div>
 {% end %}
 
