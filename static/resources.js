@@ -32,13 +32,40 @@ angular.module('Resources', [])
         }
 
     $scope.mkslug = function() {
-        if (!$scope.resource.slug) { $scope.resource.slug = $filter('slugify')($scope.resource.name); };
+        if (!$scope.resource.slug && $scope.resource.name) { $scope.resource.slug = $filter('slugify')($scope.resource.name); };
         }
 
     $scope.save = function(resource) {
-        console.log(resource);
+        $http.post('/resources/', $scope.resource)
+        .success( function (data) {
+            console.log('OK', data);
 
-        }
+            // make error tooltips
+            if (data.errors) {
+                // clear any old ones
+                $('.popover').remove();
 
-    })
+                for (i in data.errors) {
+                    console.log(i,data.errors[i]);
+                    $('#'+i).popover({
+                        'show': true,
+                        'placement': 'bottom',
+                        'title': 'ERROR',
+                        'content': data.errors[i],
+                    });
+                    $('#'+i).popover('show');
+                }
+            }
+
+            // update with an ID or whatever the server may have changed
+            $scope.resource = data;
+
+        })
+        .error( function (data) {
+            console.log( 'NOT OK', data);
+        })
+
+    }
+
+})
 
