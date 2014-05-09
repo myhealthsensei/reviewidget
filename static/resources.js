@@ -9,7 +9,16 @@ angular.module('Resources', [])
 // edit controller
 .controller('Edit', function ($scope,$http) {
 
-    $scope.resource = {'id':false};  // optional
+    $scope.resource = {'id':false, 'public':false};  // optional defaults
+
+    $scope.add = function(){
+        var f = document.getElementById('file').files[0],
+        r = new FileReader();
+        r.onloadend = function(e){
+            $scope.resource.logo = e.target.result;
+            }
+        r.readAsBinaryString(f);
+        }
 
     $scope.save = function(resource) {
         console.log(resource);
