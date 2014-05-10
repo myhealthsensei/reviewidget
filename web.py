@@ -93,7 +93,7 @@ def main():
     """
     define any extra commandline params
     """
-    define("port", default=8001, help="run on the given port", type=int)
+    define("port", default=8888, help="run on the given port", type=int)
     define("runtests", default=False, help="run tests", type=bool)
     define("seed", default=False, help="Build tables and set up dummy/fixture data")
     define("adduser", default='', help="Add user from commandline, eg --adduser=japherwocky")
